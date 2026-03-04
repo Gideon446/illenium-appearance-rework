@@ -11,7 +11,7 @@ interface ItemProps {
 
 const Container = styled.div`
   width: 100%;
-  border-bottom: 1px solid #2C2E33;
+  border-bottom: ${({ theme }) => `1px solid rgba(${theme.borderColor || '44, 46, 51'}, 1)`};
 `;
 
 interface HeaderProps {
@@ -32,13 +32,13 @@ const Header = styled.button<HeaderProps>`
   span {
     font-size: ${vp(12)};
     font-weight: 500;
-    color: #C1C2C5;
+    color: ${({ theme }) => `rgb(${theme.fontColor || '193, 194, 197'})`};
   }
   
   svg {
     width: ${vp(14)};
     height: ${vp(14)};
-    color: #4dabf7;
+    color: ${({ theme }) => `rgb(${theme.accentColor || '77, 171, 247'})`};
     transition: transform 0.25s ease;
     transform: ${({ expanded }) => expanded ? 'rotate(180deg)' : 'rotate(0)'};
   }

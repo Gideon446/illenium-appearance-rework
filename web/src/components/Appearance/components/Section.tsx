@@ -13,7 +13,7 @@ interface SectionProps {
 
 const Container = styled.div`
   width: 100%;
-  border-bottom: 1px solid #2C2E33;
+  border-bottom: ${({ theme }) => `1px solid rgba(${theme.borderColor || '44, 46, 51'}, 1)`};
   user-select: none;
 `;
 
@@ -34,22 +34,22 @@ const Header = styled.button<HeaderProps>`
   font-family: 'Nexa-Book', sans-serif;
   
   &:hover {
-    background: #25262b;
+    background: ${({ theme }) => `rgb(${theme.surfaceBackground || '37, 38, 43'})`};
     
-    span { color: #4dabf7; }
-    svg { color: #74c0fc; }
+    span { color: ${({ theme }) => `rgb(${theme.accentColor || '77, 171, 247'})`}; }
+    svg { color: ${({ theme }) => `rgb(${theme.accentColorHover || '116, 192, 252'})`}; }
   }
   
   span {
     font-size: ${vp(13)};
     font-weight: 500;
-    color: #C1C2C5;
+    color: ${({ theme }) => `rgb(${theme.fontColor || '193, 194, 197'})`};
   }
   
   svg {
     width: ${vp(16)};
     height: ${vp(16)};
-    color: #4dabf7;
+    color: ${({ theme }) => `rgb(${theme.accentColor || '77, 171, 247'})`};
     transition: transform 0.25s ease;
     transform: ${({ expanded }) => expanded ? 'rotate(180deg)' : 'rotate(0)'};
   }

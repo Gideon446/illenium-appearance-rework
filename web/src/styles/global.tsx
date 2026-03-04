@@ -26,7 +26,7 @@ export default createGlobalStyle<{theme: any}>`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow: hidden;
-    color: #C1C2C5;
+    color: ${({ theme }) => `rgb(${theme.fontColor || '193, 194, 197'})`};
     
     /* Dev mode background - Thomas boilerplate FiveM POV image (no dark overlay) */
     ${isDev ? `

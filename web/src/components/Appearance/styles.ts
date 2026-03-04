@@ -1,14 +1,7 @@
 import styled from 'styled-components';
 import { vp } from '../../styles/scale';
 
-/* Thomas boilerplate theme - dark grayscale + Mantine light blue accent
- * dark[0]: #C1C2C5, dark[1]: #A6A7AB, dark[2]: #909296, dark[3]: #5c5f66
- * dark[4]: #373A40, dark[5]: #2C2E33, dark[6]: #25262b, dark[7]: #1A1B1E
- * Mantine light blue: #4dabf7 (primary), #74c0fc (hover), rgba(77, 171, 247, 0.2) (light)
- */
-const ACCENT_BLUE = '#4dabf7';
-const ACCENT_BLUE_HOVER = '#74c0fc';
-const ACCENT_BLUE_LIGHT = 'rgba(77, 171, 247, 0.2)';
+/* Appearance layout styles – now fully driven by the theme palette */
 
 export const Wrapper = styled.div`
   position: relative;
@@ -49,8 +42,8 @@ export const ContentPanel = styled.div`
   max-height: ${PANEL_HEIGHT};
   min-height: 0;
   flex-shrink: 0;
-  background: #1A1B1E;
-  border: 1px solid #2C2E33;
+  background: ${({ theme }) => `rgb(${theme.primaryBackground || '26, 27, 30'})`};
+  border: ${({ theme }) => `1px solid rgba(${theme.borderColor || '44, 46, 51'}, 1)`};
   border-radius: ${vp(12)};
   box-shadow: ${vp(10)} 0 ${vp(40)} rgba(0, 0, 0, 0.5);
   position: relative;
@@ -84,7 +77,7 @@ export const Header = styled.div`
   display: flex;
   align-items: center;
   gap: ${vp(12)};
-  border-bottom: 1px solid #2C2E33;
+  border-bottom: ${({ theme }) => `1px solid rgba(${theme.borderColor || '44, 46, 51'}, 1)`};
 `;
 
 export const HeaderIcon = styled.div`
@@ -93,12 +86,12 @@ export const HeaderIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #25262b;
-  border: 1px solid #373A40;
+  background: ${({ theme }) => `rgb(${theme.surfaceBackground || '37, 38, 43'})`};
+  border: ${({ theme }) => `1px solid rgba(${theme.borderColorSoft || '55, 58, 64'}, 1)`};
   border-radius: ${vp(8)};
   
   svg {
-    color: ${ACCENT_BLUE};
+    color: ${({ theme }) => `rgb(${theme.accentColor || '77, 171, 247'})`};
     width: ${vp(20)};
     height: ${vp(20)};
   }
@@ -110,13 +103,13 @@ export const HeaderText = styled.div`
   h1 {
     font-size: ${vp(14)};
     font-weight: 600;
-    color: #C1C2C5;
+    color: ${({ theme }) => `rgb(${theme.fontColor || '193, 194, 197'})`};
     margin: 0 0 ${vp(2)} 0;
   }
   
   p {
     font-size: ${vp(11)};
-    color: #909296;
+    color: ${({ theme }) => `rgb(${theme.mutedTextColor || '144, 146, 150'})`};
     margin: 0;
   }
 `;
@@ -133,17 +126,17 @@ export const Container = styled.div`
   }
 
   &::-webkit-scrollbar-track {
-    background: #101113;
+    background: ${({ theme }) => `rgb(${theme.secondaryBackground || '16, 17, 19'})`};
     border-radius: 4px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: #373A40;
+    background: ${({ theme }) => `rgb(${theme.borderColorSoft || '55, 58, 64'})`};
     border-radius: 4px;
   }
 
   &::-webkit-scrollbar-thumb:hover {
-    background: ${ACCENT_BLUE};
+    background: ${({ theme }) => `rgb(${theme.accentColor || '77, 171, 247'})`};
   }
 `;
 
@@ -152,8 +145,8 @@ export const FooterButtons = styled.div`
   gap: ${vp(8)};
   padding: ${vp(16)} ${vp(16)} ${vp(20)};
   flex-shrink: 0;
-  background: #141517;
-  border-top: 1px solid #2C2E33;
+  background: ${({ theme }) => `rgb(${theme.surfaceBackgroundAlt || '20, 21, 23'})`};
+  border-top: ${({ theme }) => `1px solid rgba(${theme.borderColor || '44, 46, 51'}, 1)`};
 `;
 
 interface ActionButtonProps {
@@ -171,28 +164,31 @@ export const ActionButton = styled.button<ActionButtonProps>`
   cursor: pointer;
   transition: all 0.2s ease;
   
-  ${({ variant }) => variant === 'primary' ? `
-    background-color: ${ACCENT_BLUE_LIGHT};
-    border: 1px solid ${ACCENT_BLUE};
-    color: ${ACCENT_BLUE};
+  ${({ variant, theme }) =>
+    variant === 'primary'
+      ? `
+    background-color: rgba(${theme.accentColor || '77, 171, 247'}, 0.2);
+    border: 1px solid rgb(${theme.accentColor || '77, 171, 247'});
+    color: rgb(${theme.accentColor || '77, 171, 247'});
     
     &:hover {
-      background-color: rgba(77, 171, 247, 0.25);
-      border-color: ${ACCENT_BLUE};
+      background-color: rgba(${theme.accentColor || '77, 171, 247'}, 0.25);
+      border-color: rgb(${theme.accentColor || '77, 171, 247'});
     }
     
     &:active {
       transform: scale(0.98);
     }
-  ` : `
+  `
+      : `
     background-color: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #C1C2C5;
+    color: rgb(${theme.fontColor || '193, 194, 197'});
     
     &:hover {
       background-color: rgba(255, 255, 255, 0.1);
-      border-color: ${ACCENT_BLUE};
-      color: ${ACCENT_BLUE};
+      border-color: rgb(${theme.accentColor || '77, 171, 247'});
+      color: rgb(${theme.accentColor || '77, 171, 247'});
     }
     
     &:active {
@@ -207,8 +203,8 @@ export const Sidebar = styled.div`
   height: ${PANEL_HEIGHT};
   max-height: ${PANEL_HEIGHT};
   min-height: 0;
-  background: #1A1B1E;
-  border: 1px solid #2C2E33;
+  background: ${({ theme }) => `rgb(${theme.primaryBackground || '26, 27, 30'})`};
+  border: ${({ theme }) => `1px solid rgba(${theme.borderColor || '44, 46, 51'}, 1)`};
   border-radius: ${vp(12)};
   display: flex;
   flex-direction: column;
@@ -258,40 +254,51 @@ export const SidebarItem = styled.button<SidebarItemProps>`
   border-radius: ${vp(8)};
   cursor: pointer;
   transition: all 0.2s ease;
-  background: ${({ active }) => active ? ACCENT_BLUE_LIGHT : 'transparent'};
-  border: 1px solid ${({ active }) => active ? ACCENT_BLUE : '#2C2E33'};
-  box-shadow: ${({ active }) => active ? '0 0 0 1px rgba(34, 139, 230, 0.2)' : 'none'};
+  background: ${({ active, theme }) =>
+    active ? `rgba(${theme.accentColor || '77, 171, 247'}, 0.2)` : 'transparent'};
+  border: ${({ active, theme }) =>
+    active
+      ? `1px solid rgb(${theme.accentColor || '77, 171, 247'})`
+      : `1px solid rgba(${theme.borderColor || '44, 46, 51'}, 1)`};
+  box-shadow: ${({ active }) =>
+    active ? '0 0 0 1px rgba(34, 139, 230, 0.2)' : 'none'};
   
   svg {
     width: ${vp(18)};
     height: ${vp(18)};
-    color: ${({ active }) => active ? ACCENT_BLUE : '#5c5f66'};
+    color: ${({ active, theme }) =>
+      active ? `rgb(${theme.accentColor || '77, 171, 247'})` : `rgb(${theme.mutedTextColorSoft || '92, 95, 102'})`};
     transition: color 0.2s ease;
   }
   
   span {
     font-size: ${vp(9)};
     font-weight: 500;
-    color: ${({ active }) => active ? '#C1C2C5' : '#5c5f66'};
+    color: ${({ active, theme }) =>
+      active ? `rgb(${theme.fontColor || '193, 194, 197'})` : `rgb(${theme.mutedTextColorSoft || '92, 95, 102'})`};
     transition: color 0.2s ease;
   }
   
   &:hover {
-    background: ${({ active }) => active ? ACCENT_BLUE_LIGHT : '#25262b'};
-    border-color: ${({ active }) => active ? ACCENT_BLUE : '#373A40'};
+    background: ${({ active, theme }) =>
+      active ? `rgba(${theme.accentColor || '77, 171, 247'}, 0.2)` : `rgb(${theme.surfaceBackground || '37, 38, 43'})`};
+    border-color: ${({ active, theme }) =>
+      active ? `rgb(${theme.accentColor || '77, 171, 247'})` : `rgb(${theme.borderColorSoft || '55, 58, 64'})`};
     
     svg {
-      color: ${({ active }) => active ? ACCENT_BLUE_HOVER : ACCENT_BLUE};
+      color: ${({ active, theme }) =>
+        active ? `rgb(${theme.accentColorHover || '116, 192, 252'})` : `rgb(${theme.accentColor || '77, 171, 247'})`};
     }
     
     span {
-      color: ${({ active }) => active ? '#C1C2C5' : ACCENT_BLUE};
+      color: ${({ active, theme }) =>
+        active ? `rgb(${theme.fontColor || '193, 194, 197'})` : `rgb(${theme.accentColor || '77, 171, 247'})`};
     }
   }
 `;
 
 export const SectionWrapper = styled.div`
-  border-bottom: 1px solid #2C2E33;
+  border-bottom: ${({ theme }) => `1px solid rgba(${theme.borderColor || '44, 46, 51'}, 1)`};
 `;
 
 interface SectionHeaderProps {
@@ -310,23 +317,23 @@ export const SectionHeader = styled.button<SectionHeaderProps>`
   transition: background 0.2s ease;
   
   &:hover {
-    background: #25262b;
+    background: ${({ theme }) => `rgb(${theme.surfaceBackground || '37, 38, 43'})`};
     
-    span { color: ${ACCENT_BLUE}; }
-    svg { color: ${ACCENT_BLUE}; }
+    span { color: ${({ theme }) => `rgb(${theme.accentColor || '77, 171, 247'})`}; }
+    svg { color: ${({ theme }) => `rgb(${theme.accentColor || '77, 171, 247'})`}; }
   }
   
   span {
     font-size: ${vp(12)};
     font-weight: 500;
-    color: #C1C2C5;
+    color: ${({ theme }) => `rgb(${theme.fontColor || '193, 194, 197'})`};
     transition: color 0.2s ease;
   }
   
   svg {
     width: ${vp(14)};
     height: ${vp(14)};
-    color: #909296;
+    color: ${({ theme }) => `rgb(${theme.mutedTextColor || '144, 146, 150'})`};
     transition: transform 0.25s ease, color 0.2s ease;
     transform: ${({ expanded }) => expanded ? 'rotate(180deg)' : 'rotate(0)'};
   }
@@ -347,7 +354,7 @@ export const ControlRow = styled.div`
 
 export const ControlLabel = styled.label`
   font-size: ${vp(11)};
-  color: #909296;
+  color: ${({ theme }) => `rgb(${theme.mutedTextColor || '144, 146, 150'})`};
   font-weight: 500;
   font-family: 'Nexa-Book', sans-serif;
 `;
@@ -355,15 +362,15 @@ export const ControlLabel = styled.label`
 export const NumberInput = styled.div`
   display: flex;
   align-items: center;
-  background-color: #25262b;
-  border: 1px solid #373A40;
+  background-color: ${({ theme }) => `rgb(${theme.surfaceBackground || '37, 38, 43'})`};
+  border: ${({ theme }) => `1px solid rgba(${theme.borderColorSoft || '55, 58, 64'}, 1)`};
   border-radius: ${vp(6)};
   overflow: hidden;
   transition: all 0.15s ease;
   
   &:hover {
-    background-color: #2C2E33;
-    border-color: #5c5f66;
+    background-color: ${({ theme }) => `rgb(${theme.primaryBackgroundSelected || '55, 58, 64'})`};
+    border-color: ${({ theme }) => `rgb(${theme.mutedTextColorSoft || '92, 95, 102'})`};
   }
 `;
 
@@ -382,14 +389,14 @@ export const NumberButton = styled.button`
   svg {
     width: ${vp(12)};
     height: ${vp(12)};
-    color: #5c5f66;
+    color: ${({ theme }) => `rgb(${theme.mutedTextColorSoft || '92, 95, 102'})`};
   }
   
   &:hover {
-    background: #373A40;
+    background: ${({ theme }) => `rgb(${theme.borderColorSoft || '55, 58, 64'})`};
     
     svg {
-      color: #A6A7AB;
+      color: ${({ theme }) => 'rgb(166, 167, 171)'};
     }
   }
 `;
@@ -398,7 +405,7 @@ export const NumberValue = styled.span`
   flex: 1;
   text-align: center;
   font-size: ${vp(12)};
-  color: #C1C2C5;
+  color: ${({ theme }) => `rgb(${theme.fontColor || '193, 194, 197'})`};
   font-weight: 500;
   font-family: 'Nexa-Book', sans-serif;
 `;
@@ -417,8 +424,8 @@ export const FlexWrapper = styled.div`
 export const CardBlock = styled.div`
   width: 100%;
   padding: ${vp(14)} ${vp(16)};
-  background-color: #25262b;
-  border: 1px solid #2C2E33;
+  background-color: ${({ theme }) => `rgb(${theme.surfaceBackground || '37, 38, 43'})`};
+  border: ${({ theme }) => `1px solid rgba(${theme.borderColor || '44, 46, 51'}, 1)`};
   border-radius: ${vp(8)};
   display: flex;
   flex-direction: column;
@@ -426,8 +433,8 @@ export const CardBlock = styled.div`
   transition: background-color 0.2s ease, border-color 0.2s ease;
 
   &:hover {
-    background-color: #2C2E33;
-    border-color: #373A40;
+    background-color: ${({ theme }) => `rgb(${theme.primaryBackgroundSelected || '55, 58, 64'})`};
+    border-color: ${({ theme }) => `rgb(${theme.borderColorSoft || '55, 58, 64'})`};
   }
 `;
 
@@ -448,16 +455,16 @@ export const TattoosLayout = styled.div`
 
 export const TattoosTitle = styled.div`
   padding: ${vp(14)} ${vp(16)};
-  border-bottom: 1px solid #2C2E33;
+  border-bottom: ${({ theme }) => `1px solid rgba(${theme.borderColor || '44, 46, 51'}, 1)`};
   font-size: ${vp(13)};
   font-weight: 600;
-  color: #C1C2C5;
+  color: ${({ theme }) => `rgb(${theme.fontColor || '193, 194, 197'})`};
   font-family: 'Nexa-Book', sans-serif;
 `;
 
 export const TattoosZoneBlock = styled.div`
   padding: ${vp(12)} ${vp(16)} ${vp(16)};
-  border-bottom: 1px solid #2C2E33;
+  border-bottom: ${({ theme }) => `1px solid rgba(${theme.borderColor || '44, 46, 51'}, 1)`};
 
   &:last-of-type {
     border-bottom: none;
@@ -467,7 +474,7 @@ export const TattoosZoneBlock = styled.div`
 export const TattoosZoneLabel = styled.div`
   font-size: ${vp(11)};
   font-weight: 500;
-  color: #909296;
+  color: ${({ theme }) => `rgb(${theme.mutedTextColor || '144, 146, 150'})`};
   margin-bottom: ${vp(10)};
   font-family: 'Nexa-Book', sans-serif;
 `;
@@ -481,11 +488,11 @@ export const TattoosScrollArea = styled.div`
     width: 4px;
   }
   &::-webkit-scrollbar-track {
-    background: #101113;
+    background: ${({ theme }) => `rgb(${theme.secondaryBackground || '16, 17, 19'})`};
     border-radius: 4px;
   }
   &::-webkit-scrollbar-thumb {
-    background: #373A40;
+    background: ${({ theme }) => `rgb(${theme.borderColorSoft || '55, 58, 64'})`};
     border-radius: 4px;
   }
 `;
@@ -496,8 +503,8 @@ export const TattoosBottomBar = styled.div`
   display: flex;
   gap: ${vp(8)};
   padding: ${vp(16)} ${vp(16)} ${vp(20)};
-  background: #141517;
-  border-top: 1px solid #2C2E33;
+  background: ${({ theme }) => `rgb(${theme.surfaceBackgroundAlt || '20, 21, 23'})`};
+  border-top: ${({ theme }) => `1px solid rgba(${theme.borderColor || '44, 46, 51'}, 1)`};
 `;
 
 export const CameraButtons = styled.div`
@@ -509,8 +516,8 @@ export const CameraButtons = styled.div`
   flex-direction: row;
   gap: ${vp(10)};
   padding: ${vp(12)};
-  background: #1A1B1E;
-  border: 1px solid #2C2E33;
+  background: ${({ theme }) => `rgb(${theme.primaryBackground || '26, 27, 30'})`};
+  border: ${({ theme }) => `1px solid rgba(${theme.borderColor || '44, 46, 51'}, 1)`};
   border-radius: ${vp(12)};
   box-shadow: 0 ${vp(4)} ${vp(20)} rgba(0, 0, 0, 0.5);
   z-index: 100;
@@ -529,8 +536,12 @@ export const CameraButton = styled.button<CameraButtonProps>`
   align-items: center;
   justify-content: center;
   gap: ${vp(4)};
-  background-color: ${({ active }) => active ? ACCENT_BLUE_LIGHT : 'rgba(255, 255, 255, 0.05)'};
-  border: ${({ active }) => active ? `1px solid ${ACCENT_BLUE}` : '1px solid rgba(255, 255, 255, 0.1)'};
+  background-color: ${({ active, theme }) =>
+    active ? `rgba(${theme.accentColor || '77, 171, 247'}, 0.2)` : 'rgba(255, 255, 255, 0.05)'};
+  border: ${({ active, theme }) =>
+    active
+      ? `1px solid rgb(${theme.accentColor || '77, 171, 247'})`
+      : '1px solid rgba(255, 255, 255, 0.1)'};
   border-radius: ${vp(4)};
   cursor: pointer;
   transition: all 0.15s ease;
@@ -539,25 +550,30 @@ export const CameraButton = styled.button<CameraButtonProps>`
   svg {
     width: ${vp(20)};
     height: ${vp(20)};
-    color: ${({ active }) => active ? ACCENT_BLUE : '#909296'};
+    color: ${({ active, theme }) =>
+      active ? `rgb(${theme.accentColor || '77, 171, 247'})` : `rgb(${theme.mutedTextColor || '144, 146, 150'})`};
     transition: color 0.15s ease;
   }
   
   span {
     font-size: ${vp(8)};
     font-weight: 600;
-    color: ${({ active }) => active ? ACCENT_BLUE : '#909296'};
+    color: ${({ active, theme }) =>
+      active ? `rgb(${theme.accentColor || '77, 171, 247'})` : `rgb(${theme.mutedTextColor || '144, 146, 150'})`};
     text-transform: uppercase;
     letter-spacing: 0.3px;
     font-family: 'Nexa-Book', sans-serif;
   }
   
   &:hover {
-    background-color: ${({ active }) => active ? ACCENT_BLUE_LIGHT : 'rgba(255, 255, 255, 0.1)'};
-    border-color: ${({ active }) => active ? ACCENT_BLUE : 'rgba(255, 255, 255, 0.2)'};
+    background-color: ${({ active, theme }) =>
+      active ? `rgba(${theme.accentColor || '77, 171, 247'}, 0.2)` : 'rgba(255, 255, 255, 0.1)'};
+    border-color: ${({ active, theme }) =>
+      active ? `rgb(${theme.accentColor || '77, 171, 247'})` : 'rgba(255, 255, 255, 0.2)'};
     
     svg, span {
-      color: ${({ active }) => active ? ACCENT_BLUE : '#C1C2C5'};
+      color: ${({ active, theme }) =>
+        active ? `rgb(${theme.accentColor || '77, 171, 247'})` : `rgb(${theme.fontColor || '193, 194, 197'})`};
     }
   }
   
@@ -575,15 +591,15 @@ export const ControlsInfo = styled.div`
   flex-direction: row;
   align-items: center;
   gap: ${vp(20)};
-  background: #1A1B1E;
-  border: 1px solid #2C2E33;
+  background: ${({ theme }) => `rgb(${theme.primaryBackground || '26, 27, 30'})`};
+  border: ${({ theme }) => `1px solid rgba(${theme.borderColor || '44, 46, 51'}, 1)`};
   border-radius: ${vp(8)};
   padding: ${vp(10)} ${vp(20)};
   z-index: 100;
   
   span {
     font-size: ${vp(11)};
-    color: #909296;
+    color: ${({ theme }) => `rgb(${theme.mutedTextColor || '144, 146, 150'})`};
     display: flex;
     align-items: center;
     gap: 8px;
@@ -596,12 +612,12 @@ export const ControlsInfo = styled.div`
     min-width: ${vp(22)};
     height: ${vp(22)};
     padding: 0 ${vp(6)};
-    background: #25262b;
-    border: 1px solid #373A40;
+    background: ${({ theme }) => `rgb(${theme.surfaceBackground || '37, 38, 43'})`};
+    border: ${({ theme }) => `1px solid rgba(${theme.borderColorSoft || '55, 58, 64'}, 1)`};
     border-radius: ${vp(4)};
     font-size: ${vp(11)};
     font-weight: 600;
-    color: ${ACCENT_BLUE};
+    color: ${({ theme }) => `rgb(${theme.accentColor || '77, 171, 247'})`};
     font-family: 'Nexa-Book', sans-serif;
   }
 `;
@@ -609,5 +625,5 @@ export const ControlsInfo = styled.div`
 export const ControlsDivider = styled.div`
   width: 1px;
   height: 20px;
-  background: rgba(77, 171, 247, 0.4);
+  background: ${({ theme }) => `rgba(${theme.accentColor || '77, 171, 247'}, 0.4)`};
 `;

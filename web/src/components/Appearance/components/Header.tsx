@@ -8,7 +8,7 @@ const HeaderWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: ${vp(12)};
-  border-bottom: 1px solid #2C2E33;
+  border-bottom: ${({ theme }) => `1px solid rgba(${theme.borderColor || '44, 46, 51'}, 1)`};
 `;
 
 const HeaderIcon = styled.div`
@@ -17,12 +17,12 @@ const HeaderIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #25262b;
-  border: 1px solid #373A40;
+  background-color: ${({ theme }) => `rgb(${theme.surfaceBackground || '37, 38, 43'})`};
+  border: ${({ theme }) => `1px solid rgba(${theme.borderColorSoft || '55, 58, 64'}, 1)`};
   border-radius: ${vp(8)};
   
   svg {
-    color: #4dabf7;
+    color: ${({ theme }) => `rgb(${theme.accentColor || '77, 171, 247'})`};
     width: ${vp(20)};
     height: ${vp(20)};
   }
@@ -35,14 +35,14 @@ const HeaderText = styled.div`
   h1 {
     font-size: ${vp(14)};
     font-weight: 600;
-    color: #C1C2C5;
+    color: ${({ theme }) => `rgb(${theme.fontColor || '193, 194, 197'})`};
     margin: 0 0 2px 0;
     font-family: 'Nexa-Book', sans-serif;
   }
   
   p {
     font-size: ${vp(11)};
-    color: #909296;
+    color: ${({ theme }) => `rgb(${theme.mutedTextColor || '144, 146, 150'})`};
     margin: 0;
     font-family: 'Nexa-Book', sans-serif;
   }

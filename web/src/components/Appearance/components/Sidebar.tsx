@@ -36,17 +36,12 @@ interface SidebarProps {
   locales?: Locales;
 }
 
-/* Mantine light blue accent - same as styles.ts */
-const ACCENT_BLUE = '#4dabf7';
-const ACCENT_BLUE_HOVER = '#74c0fc';
-const ACCENT_BLUE_LIGHT = 'rgba(77, 171, 247, 0.2)';
-
 const SidebarContainer = styled.div`
   width: ${vp(72)};
   height: 100%;
   align-self: stretch;
-  background: #1A1B1E;
-  border: 1px solid #2C2E33;
+  background: ${({ theme }) => `rgb(${theme.primaryBackground || '26, 27, 30'})`};
+  border: ${({ theme }) => `1px solid rgba(${theme.borderColor || '44, 46, 51'}, 1)`};
   border-radius: ${vp(12)};
   margin: 0 ${vp(10)} 0 ${vp(8)};
   display: flex;
@@ -88,7 +83,6 @@ interface SidebarItemProps {
   active: boolean;
 }
 
-/* Same light blue style as Hat/Torso/Pants buttons - light tint + blue border when active */
 const SidebarItem = styled.button<SidebarItemProps>`
   width: ${vp(56)};
   height: ${vp(56)};
@@ -100,30 +94,40 @@ const SidebarItem = styled.button<SidebarItemProps>`
   border-radius: ${vp(4)};
   cursor: pointer;
   transition: all 0.2s ease;
-  background: ${({ active }) => active ? ACCENT_BLUE_LIGHT : 'rgba(255, 255, 255, 0.05)'};
-  border: ${({ active }) => active ? `1px solid ${ACCENT_BLUE}` : '1px solid rgba(255, 255, 255, 0.1)'};
+  background: ${({ active, theme }) =>
+    active ? `rgba(${theme.accentColor || '77, 171, 247'}, 0.2)` : 'rgba(255, 255, 255, 0.05)'};
+  border: ${({ active, theme }) =>
+    active
+      ? `1px solid rgb(${theme.accentColor || '77, 171, 247'})`
+      : '1px solid rgba(255, 255, 255, 0.1)'};
   
   svg {
     width: ${vp(18)};
     height: ${vp(18)};
-    color: ${({ active }) => active ? ACCENT_BLUE : '#909296'};
+    color: ${({ active, theme }) =>
+      active ? `rgb(${theme.accentColor || '77, 171, 247'})` : `rgb(${theme.mutedTextColor || '144, 146, 150'})`};
     transition: color 0.2s ease;
   }
   
   span {
     font-size: ${vp(9)};
     font-weight: 500;
-    color: ${({ active }) => active ? ACCENT_BLUE : '#909296'};
+    color: ${({ active, theme }) =>
+      active ? `rgb(${theme.accentColor || '77, 171, 247'})` : `rgb(${theme.mutedTextColor || '144, 146, 150'})`};
     transition: color 0.2s ease;
     font-family: 'Nexa-Book', sans-serif;
   }
   
   &:hover {
-    background: ${({ active }) => active ? ACCENT_BLUE_LIGHT : 'rgba(255, 255, 255, 0.1)'};
-    border-color: ${({ active }) => active ? ACCENT_BLUE : 'rgba(255, 255, 255, 0.2)'};
+    background: ${({ active, theme }) =>
+      active ? `rgba(${theme.accentColor || '77, 171, 247'}, 0.2)` : 'rgba(255, 255, 255, 0.1)'};
+    border-color: ${({ active, theme }) =>
+      active ? `rgb(${theme.accentColor || '77, 171, 247'})` : 'rgba(255, 255, 255, 0.2)'};
     
-    svg, span {
-      color: ${({ active }) => active ? ACCENT_BLUE : '#C1C2C5'};
+    svg,
+    span {
+      color: ${({ active, theme }) =>
+        active ? `rgb(${theme.accentColor || '77, 171, 247'})` : `rgb(${theme.fontColor || '193, 194, 197'})`};
     }
   }
 `;
@@ -141,7 +145,7 @@ const SidebarCategories = styled.div`
 const ClothesSection = styled.div`
   flex-shrink: 0;
   padding-top: ${vp(8)};
-  border-top: 1px solid #2C2E33;
+  border-top: ${({ theme }) => `1px solid rgba(${theme.borderColor || '44, 46, 51'}, 1)`};
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -163,27 +167,35 @@ const ClothesButton = styled.button<ClothesButtonProps>`
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s ease;
-  background: ${({ active }) => active ? ACCENT_BLUE_LIGHT : 'rgba(255, 255, 255, 0.05)'};
-  border: ${({ active }) => active ? `1px solid ${ACCENT_BLUE}` : '1px solid rgba(255, 255, 255, 0.1)'};
+  background: ${({ active, theme }) =>
+    active ? `rgba(${theme.accentColor || '77, 171, 247'}, 0.2)` : 'rgba(255, 255, 255, 0.05)'};
+  border: ${({ active, theme }) =>
+    active
+      ? `1px solid rgb(${theme.accentColor || '77, 171, 247'})`
+      : '1px solid rgba(255, 255, 255, 0.1)'};
   
   svg {
     width: ${vp(18)};
     height: ${vp(18)};
-    color: ${({ active }) => active ? ACCENT_BLUE : '#909296'};
+    color: ${({ active, theme }) =>
+      active ? `rgb(${theme.accentColor || '77, 171, 247'})` : `rgb(${theme.mutedTextColor || '144, 146, 150'})`};
   }
   
   span {
     font-size: ${vp(9)};
     font-weight: 500;
-    color: ${({ active }) => active ? ACCENT_BLUE : '#909296'};
+    color: ${({ active, theme }) =>
+      active ? `rgb(${theme.accentColor || '77, 171, 247'})` : `rgb(${theme.mutedTextColor || '144, 146, 150'})`};
     font-family: 'Nexa-Book', sans-serif;
   }
   
   &:hover {
-    background: ${({ active }) => active ? ACCENT_BLUE_LIGHT : 'rgba(255, 255, 255, 0.1)'};
+    background: ${({ active, theme }) =>
+      active ? `rgba(${theme.accentColor || '77, 171, 247'}, 0.2)` : 'rgba(255, 255, 255, 0.1)'};
     
     svg, span {
-      color: ${({ active }) => active ? ACCENT_BLUE : '#C1C2C5'};
+      color: ${({ active, theme }) =>
+        active ? `rgb(${theme.accentColor || '77, 171, 247'})` : `rgb(${theme.fontColor || '193, 194, 197'})`};
     }
   }
 `;
